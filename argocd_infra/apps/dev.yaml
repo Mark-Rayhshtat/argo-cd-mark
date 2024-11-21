@@ -12,8 +12,6 @@ spec:
     path: apps/dev
     repoURL: https://github.com/Mark-Rayhshtat/argo-cd-mark.git
     targetRevision: HEAD
-    directory:
-      recurse: true
   syncPolicy:
     automated:
       prune: true
