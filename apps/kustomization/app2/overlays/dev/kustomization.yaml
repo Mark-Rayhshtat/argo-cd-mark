@@ -10,7 +10,7 @@ patches:
       path: "/spec/template/spec/containers/0/env/0"
       value:
         name: MESSAGE
-        value: "Hello from the Dev ENV of APP2 (version 1.3)!!!"
+        value: "Hello from the Dev ENV of APP2 (version 1.4)!!!"
   target:
     kind: Deployment
     name: hello-kubernetes-2
