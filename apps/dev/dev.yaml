@@ -9,7 +9,7 @@ spec:
     namespace: dev
   project: dev
   source:
-    path: apps/kusromization/app1/overlays/dev
+    path: apps/kustomization/app1/overlays/dev
     repoURL: https://github.com/Mark-Rayhshtat/argo-cd-mark.git
     targetRevision: HEAD
   syncPolicy:
