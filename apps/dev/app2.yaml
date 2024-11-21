@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: app2-dev-02
   namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: test-argonotif
 spec:
   destination:
     server: https://kubernetes.default.svc
