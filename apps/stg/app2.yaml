@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2-stg
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: stg
+  project: stg
+  source:
+    path: apps/kustomization/app2/overlays/stg
+    repoURL: https://github.com/Mark-Rayhshtat/argo-cd-mark.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true

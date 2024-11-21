@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- namespace.yaml
+- ../../base
+namespace: stg
+namePrefix: stg-
+patches:
+- patch: |-
+    - op: replace
+      path: "/spec/template/spec/containers/0/env/0"
+      value:
+        name: MESSAGE
+        value: "Hello from the STG ENV of APP2 (version 1)!!!"
+  target:
+    kind: Deployment
+    name: hello-kubernetes
+- patch: |-
+    - op: replace
+      path: "/spec/rules/0/host"
+      value: app2-stg.auth.rayhshtat.com
+  target:
+    kind: Ingress
+    name: hello-kubernetes-ingress
