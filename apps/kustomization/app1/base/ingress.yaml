@@ -9,7 +9,7 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/target-type: ip
     kubernetes.io/ingress.class: alb
-  name: hello-kubernetes-ingress
+  name: hello-kubernetes-ingress-1
 spec:
   rules:
   - host: app1.auth.rayhshtat.com
@@ -17,7 +17,7 @@ spec:
       paths:
       - backend:
           service:
-            name: hello-kubernetes-svc
+            name: hello-kubernetes-svc-1
             port:
               number: 80
         path: /

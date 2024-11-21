@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-kubernetes
+  name: hello-kubernetes-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-kubernetes
+      app: hello-kubernetes-1
   template:
     metadata:
       labels:
-        app: hello-kubernetes
+        app: hello-kubernetes-1
     spec:
       securityContext:
         runAsUser: 1000

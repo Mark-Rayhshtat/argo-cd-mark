@@ -14,11 +14,11 @@ patches:
         value: "Hello from the PROD ENV of APP2 (version 1)!!!"
   target:
     kind: Deployment
-    name: hello-kubernetes
+    name: hello-kubernetes-2
 - patch: |-
     - op: replace
       path: "/spec/rules/0/host"
       value: app2.auth.rayhshtat.com
   target:
     kind: Ingress
-    name: hello-kubernetes-ingress
+    name: hello-kubernetes-ingress-2
