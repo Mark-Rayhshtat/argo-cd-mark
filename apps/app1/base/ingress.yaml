@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:581349712378:certificate/e4e6b4c7-41a8-4557-be14-d96e58b13df6
+    alb.ingress.kubernetes.io/group.name: alb
+    alb.ingress.kubernetes.io/load-balancer-name: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/target-type: ip
+    kubernetes.io/ingress.class: alb
+  name: hello-kubernetes-ingress
+spec:
+  rules:
+  - host: app1.auth.rayhshtat.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: hello-kubernetes-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
