@@ -1,5 +1,4 @@
 # argo-cd-mark
-
 [ssm-user@ip-10-10-2-145 ~]$ k get cm -n argocd argocd-notifications-cm -o yaml
 apiVersion: v1
 data:
@@ -15,17 +14,6 @@ data:
     basicAuth:
       username: admin
       password: $jenkins-tocken
-  trigger.jenkins-on-success: |
-    - description: Application is synced and healthy. Triggered once per commit.
-      oncePer: app.status.operationState?.syncResult?.revision
-      send:
-      - jenkins-on-success
-      when: app.status.operationState != nil and app.status.operationState.phase in ["Succeeded"] and app.status.health.status == 'Healthy'
-  template.jenkins-on-success: |
-    webhook:
-      jenkins:
-        method: POST
-        path: /job/argocd/buildWithParameters?name={{.app.metadata.name}}
   template.app-deployed: |
     message: |
       Application {{.app.metadata.name}} is now running new version of deployments manifests.
@@ -49,6 +37,11 @@ data:
           {
             "title": "Revision",
             "value": "{{.app.status.sync.revision}}",
+            "short": true
+          },
+          {
+            "title": "Image",
+            "value": "{{index .app.status.summary.images 0}}",
             "short": true
           }
           {{range $index, $c := .app.status.conditions}}
@@ -234,6 +227,17 @@ data:
       deliveryPolicy: Post
       groupingKey: ""
       notifyBroadcast: false
+  template.jenkins-on-success: |
+    webhook:
+      jenkins:
+        method: POST
+        path: /job/argocd/buildWithParameters?name={{.app.metadata.name}}&project={{.app.spec.project}}&version={{ regexFind "[0-9]+\\.[0-9]+\\.[0-9]+" (index .app.status.summary.images 0) }}
+  trigger.jenkins-on-success: |
+    - description: Application is synced and healthy. Triggered once per commit.
+      oncePer: app.status.operationState?.syncResult?.revision
+      send:
+      - jenkins-on-success
+      when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
   trigger.on-deployed: |
     - description: Application is synced and healthy. Triggered once per commit.
       oncePer: app.status.operationState?.syncResult?.revision
@@ -282,9 +286,8 @@ metadata:
     helm.sh/chart: argo-cd-7.7.3
   name: argocd-notifications-cm
   namespace: argocd
-  resourceVersion: "541020"
+  resourceVersion: "1543797"
   uid: 680010bb-3297-4007-9fe0-ead1036116f9
-
 
 ---------
 
