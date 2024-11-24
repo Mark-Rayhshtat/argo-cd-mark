@@ -4,7 +4,8 @@ metadata:
   name: app1-stg
   namespace: argocd
   annotations:
-    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: test-argonotif
+    notifications.argoproj.io/subscribe.sync-operation-change.slack: test-argonotif
+    notifications.argoproj.io/subscribe.jenkins-on-success.jenkins: ""
 spec:
   destination:
     server: https://kubernetes.default.svc
