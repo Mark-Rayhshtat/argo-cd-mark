@@ -4,7 +4,12 @@ metadata:
   name: app1-stg
   namespace: argocd
   annotations:
-    notifications.argoproj.io/subscribe.sync-operation-change.slack: test-argonotif
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: test-argonotif
+    notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: test-argonotif
+    notifications.argoproj.io/subscribe.on-sync-running.slack: test-argonotif
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: test-argonotif
+    notifications.argoproj.io/subscribe.on-health-degraded.slack: test-argonotif
+    notifications.argoproj.io/subscribe.on-deployed.slack: test-argonotif
     notifications.argoproj.io/subscribe.jenkins-on-success.jenkins: ""
 spec:
   destination:
