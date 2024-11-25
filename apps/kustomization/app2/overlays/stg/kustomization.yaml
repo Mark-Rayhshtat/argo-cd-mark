@@ -17,7 +17,7 @@ patches:
 - patch: |-
     - op: replace
       path: "/spec/template/spec/containers/0/image"
-      value: paulbouwer/hello-kubernetes:1.10.1
+      value: paulbouwer/hello-kubernetes:1.7
   target:
     kind: Deployment
     name: hello-kubernetes-2
