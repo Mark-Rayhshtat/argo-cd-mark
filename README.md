@@ -1,4 +1,3 @@
-# argo-cd-mark
 [ssm-user@ip-10-10-2-145 ~]$ k get cm -n argocd argocd-notifications-cm -o yaml
 apiVersion: v1
 data:
@@ -231,19 +230,19 @@ data:
     webhook:
       jenkins:
         method: POST
-        path: /job/argocd/buildWithParameters?name={{.app.metadata.name}}&project={{.app.spec.project}}&version={{ regexFind "[0-9]+\\.[0-9]+\\.[0-9]+" (index .app.status.summary.images 0) }}
+        path: /job/argocd/buildWithParameters?name={{.app.metadata.name}}&project={{.app.spec.project}}&image={{index .app.status.summary.images 0}}&version={{ regexFind "[0-9]+\\.[0-9]+" (index .app.status.summary.images 0) }}
   trigger.jenkins-on-success: |
     - description: Application is synced and healthy. Triggered once per commit.
       oncePer: app.status.operationState?.syncResult?.revision
       send:
       - jenkins-on-success
-      when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+      when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy' and time.Now().Sub(time.Parse(app.status.operationState.startedAt)).Minutes() >= 1
   trigger.on-deployed: |
     - description: Application is synced and healthy. Triggered once per commit.
       oncePer: app.status.operationState?.syncResult?.revision
       send:
       - app-deployed
-      when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+      when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy' and time.Now().Sub(time.Parse(app.status.operationState.startedAt)).Minutes() >= 1
   trigger.on-health-degraded: |
     - description: Application has degraded
       send:
@@ -286,8 +285,9 @@ metadata:
     helm.sh/chart: argo-cd-7.7.3
   name: argocd-notifications-cm
   namespace: argocd
-  resourceVersion: "1543797"
+  resourceVersion: "1833547"
   uid: 680010bb-3297-4007-9fe0-ead1036116f9
+[ssm-user@ip-10-10-2-145 ~]$
 
 ---------
 
